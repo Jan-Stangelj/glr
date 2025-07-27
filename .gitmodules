@@ -1,0 +1,3 @@
+[submodule "vendor/glrhi"]
+	path = vendor/glrhi
+	url = git@github.com:Jan-Stangelj/glrhi.git
