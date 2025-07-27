@@ -1,0 +1,19 @@
+#include "glr/core/mesh.hpp"
+
+namespace glr {
+    mesh::mesh(const std::vector<vertex>& vertices, const std::vector<GLuint>& indices)
+               : m_vbo(vertices.data(), vertices.size() * sizeof(vertex)), 
+                 m_ebo(indices.data(), indices.size() * sizeof(GLuint)) {
+        
+        m_vao.addAttribute(3, GL_FLOAT, GL_FALSE, 0);
+        m_vao.addAttribute(2, GL_FLOAT, GL_FALSE, offsetof(vertex, position));
+
+        m_vao.init(m_vbo, m_ebo, 5*sizeof(GLfloat));
+
+        m_numIndices = indices.size();
+    }
+
+    void mesh::draw() {
+        glDrawElements(GL_TRIANGLES, m_numIndices, GL_UNSIGNED_INT, nullptr);
+    }
+}
