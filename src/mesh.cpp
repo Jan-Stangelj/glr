@@ -19,6 +19,7 @@ namespace glr {
     }
 
     void mesh::draw() {
+        m_vao.bind();
         glDrawElements(GL_TRIANGLES, m_numIndices, GL_UNSIGNED_INT, nullptr);
     }
 }

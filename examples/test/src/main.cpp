@@ -1,4 +1,9 @@
+#include "glr/core/mesh.hpp"
+#include "glrhi/core/ebo.hpp"
 #include "glrhi/glrhi.hpp"
+#include "glr/glr.hpp"
+
+#include <vector>
 
 int main()
 {
@@ -7,22 +12,16 @@ int main()
     glrhi::shader shader("../examples/test/shaders/basic.vert", "../examples/test/shaders/basic.frag");
     shader.setVec3("color", glm::vec3(1.0f, 0.0f, 1.0f));
 
-    float vertices[] = {
-         0.0f,  0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f
+    std::vector<glr::vertex> vertices = {
+         {glm::vec3(0.0f,  0.5f, 0.0f), glm::vec2(0.0f, 0.0f)},
+         {glm::vec3(0.5f, -0.5f, 0.0f), glm::vec2(0.0f, 0.0f)},
+         {glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec2(0.0f, 0.0f)}
     };
-    unsigned int indices[] = {
+    std::vector<GLuint> indices = {
         0, 1, 2
     };
     
-    glrhi::vao VAO;
-
-    glrhi::vbo VBO(vertices, sizeof(vertices));
-    glrhi::ebo EBO(indices, sizeof(indices));
-
-    VAO.addAttribute(3, GL_FLOAT, GL_FALSE, 0);
-    VAO.init(VBO, EBO, 3*sizeof(float));
+    glr::mesh triangle(vertices, indices);
 
     while (!window.shouldClose())
     {
@@ -32,8 +31,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         shader.use();
-        VAO.bind();
-        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+        triangle.draw();
  
         window.swapBuffers();
     }
