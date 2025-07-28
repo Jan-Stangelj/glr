@@ -12,14 +12,16 @@ namespace glr {
     struct vertex {
         glm::vec3 position;
         glm::vec2 textureUV;
-        glm::vec3 normal;
     };
 
     class mesh{
     public:
 
         mesh(const std::vector<vertex>& vertices, const std::vector<GLuint>& indices);
+        mesh() = default;
         ~mesh() = default;
+
+        void load(const std::vector<vertex>& vertices, const std::vector<GLuint>& indices);
 
         void draw();
 

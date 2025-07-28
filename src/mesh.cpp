@@ -1,9 +1,14 @@
 #include "glr/core/mesh.hpp"
+#include "glrhi/core/ebo.hpp"
 
 namespace glr {
-    mesh::mesh(const std::vector<vertex>& vertices, const std::vector<GLuint>& indices)
-               : m_vbo(vertices.data(), vertices.size() * sizeof(vertex)), 
-                 m_ebo(indices.data(), indices.size() * sizeof(GLuint)) {
+    mesh::mesh(const std::vector<vertex>& vertices, const std::vector<GLuint>& indices) {
+        load(vertices, indices);
+    }
+
+    void mesh::load(const std::vector<vertex>& vertices, const std::vector<GLuint>& indices) {
+        m_vbo.create(vertices.data(), vertices.size() * sizeof(vertex));
+        m_ebo.create(indices.data(), indices.size() * sizeof(GLuint));
         
         m_vao.addAttribute(3, GL_FLOAT, GL_FALSE, 0);
         m_vao.addAttribute(2, GL_FLOAT, GL_FALSE, offsetof(vertex, position));
