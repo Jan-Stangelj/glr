@@ -1,7 +1,6 @@
-#include "glr/core/mesh.hpp"
-#include "glrhi/core/ebo.hpp"
-#include "glrhi/glrhi.hpp"
-#include "glr/glr.hpp"
+#include <glrhi/glrhi.hpp>
+
+#include <glr/glr.hpp>
 
 #include <vector>
 
@@ -22,6 +21,12 @@ int main()
     };
     
     glr::mesh triangle(vertices, indices);
+
+    glr::camera cam;
+    cam.position.z = 3.0f;
+
+    cam.uploadData();
+    cam.bind();
 
     while (!window.shouldClose())
     {
